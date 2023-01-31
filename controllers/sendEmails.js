@@ -2,11 +2,11 @@ const nodemailer = require("nodemailer");
 const nunjucks = require("nunjucks");
 const template_path = '/home/gaurav/nodework/seq_orm/datamodels/email_templates/index.html';
 
-let username = "Gaurav";
+// let username = "Gaurav";
 var val = Math.floor(1000 + Math.random() * 9000);  //yet to implement OTP logic
 
 
-const sendEmails = async(req, res) => {
+const sendEmails = async(user_name,user_email) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -14,15 +14,24 @@ const sendEmails = async(req, res) => {
             pass: "gmyxntgjpkexkutd"
         }
     });
-    var template = nunjucks.render(template_path, { name:username });  
+    console.log("*****")
+    console.log(user_email)
+    console.log(user_name)
+    var template = nunjucks.render(template_path, { name:user_name });  
+
+    console.log("****************")
+    console.log(user_email)
     let info = await transporter.sendMail({
         from: "gkathar221@gmail.com",
-        to: "gaurav@mortgagekart.com",
+        to: user_email,
         subject: "Sample from nodemon",
         text: "text from the info",
         html: template
     });
-    res.json(info)
+    console.log("****************")
+    console.log(user_email)
+
+    // res.json(info)
     console.log("This is info",info);
     console.log("This is info html response ",info.response);
     transporter.sendMail(info, (err) => {
