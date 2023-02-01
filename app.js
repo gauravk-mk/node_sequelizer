@@ -14,20 +14,22 @@ app.use(express.json())
 
 app.use(express.urlencoded())
 
-app.set("view engine", "html")
+app.set("view engine", "html") //for rendering html files
 
 nunjucks.configure(['datamodels/'], {   // setting a default views folder for templates 
     autoescape: false,
     express: app
 })
 
+//Routes
 
 app.use('/',homeRoute)
 // app.use('/sendmail',sendEmails)
 app.get('/register',auth)
 app.post('/register',auth)
-
-
+app.get('/login',auth)
+app.post('/login',auth)
+app.get('/verify',auth)
 
 app.listen({port: 5000}, async () => {
     console.log('Server up on http://localhost:5000')

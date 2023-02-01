@@ -1,0 +1,22 @@
+{% extends "views/index.html" %} 
+
+{% block title %}
+	<title>User Validation</title>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<h1 class="text-center">User Validation</h1>
+		<form action='/validate' method="post">
+			<div class="mb-3">
+				<label>{{user.email}}</label>
+			</div>
+            <div class="mb-3">
+				<label>OTP</label>
+				<input type="text" required class="form-control" name="otp"  placeholder="Enter OTP sent on your email">
+			</div>
+			
+			<button type="submit" class="btn btn-primary">Validate</button>
+		</form>
+	</div>
+{% endblock %}
