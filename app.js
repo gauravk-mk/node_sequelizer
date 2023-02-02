@@ -29,7 +29,7 @@ app.get('/register',auth)
 app.post('/register',auth)
 app.get('/login',auth)
 app.post('/login',auth)
-app.get('/verify',auth)
+app.get('/verify/:token',auth)
 
 app.listen({port: 5000}, async () => {
     console.log('Server up on http://localhost:5000')

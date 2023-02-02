@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv')
 
 dotenv.config();
-// let username = "Gaurav";
+
 var val = Math.floor(1000 + Math.random() * 9000);  //yet to implement OTP logic
 
 let JWT_SECRET = process.env.JWT_TOKEN

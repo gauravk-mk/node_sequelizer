@@ -5,6 +5,8 @@ let path = require('path');
 const sendEmails = require('../controllers/sendEmails');
 const { JsonWebTokenError } = require('jsonwebtoken');
 const jwt = require('jsonwebtoken');
+const { Console } = require('console');
+const token = require('../controllers/token');
 
 
 router.use(express.urlencoded())
@@ -35,21 +37,42 @@ router.get('/login',async(req,res)=>{
 })
 
 router.post('/login',async(req,res)=>{
-
-    // log in for loan form 
-    // validate user email and password
+    const {email,password}= req.body
+    const currToken = token.createToken(email);
+    return res.cookie("access_token",currToken,{
+        httpOnly:true
+    }).status(200).json({ message: "Logged in!"})
     
 })
 
-router.get('/verify/:token',(req,res)=>{
+router.get('/verify/:token',async (req,res)=>{
     const {token} = req.params;
-    jwt.verify(token,process.env.JWT_TOKEN, function(err, decoded){
+    console.log(token)
+    jwt.verify(token,process.env.JWT_TOKEN, async function(err, decoded){
+
         if (err) {
             console.log(err);
             res.send("Email verification failed,possibly the link is invalid or expired");
         }
         else {
+            var decoded=jwt.decode(token);
+            console.log(decoded);
             res.send("Email verifified successfully");
+            curr_email= decoded.user_email
+            
+            const user= await User.findOne({
+                where: { email: curr_email },
+            });
+
+            user.set({
+                isValidate:true,
+                validatedOn: Date.now()
+            })
+            await user.save()
+
+            console.log(curr_email);
+            console.log(user.name);
+            console.log(user.isValidate);
         }
     })
 })
