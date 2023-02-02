@@ -1,10 +1,26 @@
 {% extends "views/index.html" %} 
 {% block content %}
 <div class="container pt-3">
-    <h1>{{home.heading}}</h1>
-    <!-- <p style="font-family: Verdana, Geneva, Tahoma, sans-serif">{{about.entry.description}}</p> -->
+    <h1>{{user}}</h1>
+
+    <h1>{{home.user.name}}</h1>
+
     <br>
-    <!-- <img src="{{home.img}}" style="width: 800px;" height="400px;" /> -->
+    <h2>Fill your data to unlock some perks</h2>
+    {% if home.user %}
+        <p>Hello {{ home.user.name}}</p>
+        {% if home.user.isValidate %}
+            <p>Email is verified</p>
+        {% endif %}
+
+        {% if not home.user.isValidate %}
+            <p>Email is Not verified Check your email</p>
+        {% endif %}
+        
+    {% endif %}
+
+
+
 </div>
 <br>
 {% endblock %}

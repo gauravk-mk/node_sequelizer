@@ -2,13 +2,16 @@ const express = require('express')
 const { sequelize, User } = require('./models')
 const homeRoute = require('./routes/home')
 const auth = require('./routes/auth')
-const sendEmails = require('./controllers/sendEmails')
+const formRoute = require('./routes/form')
+const cookieParser = require("cookie-parser");
 var path = require('path');
 let nunjucks = require('nunjucks');
 const { request } = require('http');
 
 
 const app= express()
+
+app.use(cookieParser());
 
 app.use(express.json())
 
@@ -24,12 +27,15 @@ nunjucks.configure(['datamodels/'], {   // setting a default views folder for te
 //Routes
 
 app.use('/',homeRoute)
-// app.use('/sendmail',sendEmails)
 app.get('/register',auth)
 app.post('/register',auth)
 app.get('/login',auth)
 app.post('/login',auth)
 app.get('/verify/:token',auth)
+app.get('/logout',auth)
+app.get('/postform',formRoute)
+app.post('/postform',formRoute)
+
 
 app.listen({port: 5000}, async () => {
     console.log('Server up on http://localhost:5000')

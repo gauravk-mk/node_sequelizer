@@ -23,7 +23,6 @@ router.post('/register',async(req,res)=>{
     sendEmails(name,email)
     try{
         const user = await User.create({ name, email, password})
-
         res.redirect('/login');
     }catch(err){
         console.log(err)
@@ -37,13 +36,57 @@ router.get('/login',async(req,res)=>{
 })
 
 router.post('/login',async(req,res)=>{
-    const {email,password}= req.body
-    const currToken = token.createToken(email);
-    return res.cookie("access_token",currToken,{
-        httpOnly:true
-    }).status(200).json({ message: "Logged in!"})
+    const password= req.body.password
+    const remail=req.body.email
+    console.log(remail);
+
+    const user= await User.findOne({
+        where: { email: remail, password:password },
+    });
+
+    console.log(req.body);
+    if(user){
+        console.log("inside user");
+        console.log(remail);
+        const currToken = await token.createToken(remail);
+        console.log(currToken);
+        console.log("this is ----");
+        res.cookie("access_token",currToken,{
+            httpOnly:true
+        })
+        return res.redirect('/');
+    }else{
+        res.send("not registered or wrong password!")
+    }
+    
     
 })
+
+const authorization = (req, res, next) => {
+    const token = req.cookies.access_token;
+    console.log(token);
+    if (!token) {
+      return res.sendStatus(403);
+    }
+    try {
+      const data = jwt.verify(token, process.env.JWT_TOKEN);
+      req.email = data.email;
+      return next();
+    } catch {
+      return res.sendStatus(403);
+    }
+  };
+
+router.get("/logout", authorization, (req, res) => {
+    
+    console.log("in logout");
+
+    return res
+      .clearCookie("access_token")
+      .status(200)
+      .json({ message: "Successfully logged out" });
+  });
+
 
 router.get('/verify/:token',async (req,res)=>{
     const {token} = req.params;
