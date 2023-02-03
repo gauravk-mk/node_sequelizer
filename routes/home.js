@@ -2,12 +2,8 @@ const express = require('express')
 const router = express.Router()
 const token = require('../controllers/token')
 
-const { sequelize, User } = require('../models')
-let path = require('path');
-const sendEmails = require('../controllers/sendEmails');
-const { JsonWebTokenError } = require('jsonwebtoken');
+const { User } = require('../models')
 const jwt = require('jsonwebtoken');
-const { Console } = require('console');
 
 router.use(express.urlencoded())
 

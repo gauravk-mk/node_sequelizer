@@ -23,6 +23,22 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
+      companyName: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
+      designation: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
+      technologyWorkingOn: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
+      companyLocation: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
       isValidate:{
         type: Sequelize.BOOLEAN
       },

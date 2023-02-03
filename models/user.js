@@ -30,6 +30,22 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    companyName:{
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    designation:{
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    technologyWorkingOn:{
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    companyLocation:{
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     isValidate:{
       type: DataTypes.BOOLEAN,
       defaultValue: false,

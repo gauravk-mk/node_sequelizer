@@ -1,4 +1,5 @@
-{% extends "views/index.html" %} 
+{% extends "views/index.html" %}
+
 {% block content %}
 <div class="container pt-3">
     <h1>{{user}}</h1>
@@ -6,13 +7,17 @@
     <h1>{{home.user.name}}</h1>
 
     <br>
-    <h2>Fill your data to unlock some perks</h2>
+    <h2>Welcome to Date Center</h2>
+
     {% if home.user %}
         <p>Hello {{ home.user.name}}</p>
         {% if home.user.isValidate %}
             <p>Email is verified</p>
         {% endif %}
 
+        <p>To proceed further you need to fill the form </p>
+        <a class="btn btn-primary" href="/postform/">Form</a>
+        
         {% if not home.user.isValidate %}
             <p>Email is Not verified Check your email</p>
         {% endif %}
