@@ -3,6 +3,7 @@ const { sequelize, User } = require('./models')
 const homeRoute = require('./routes/home')
 const auth = require('./routes/auth')
 const formRoute = require('./routes/form')
+const emailRoute = require('./routes/emails')
 const cookieParser = require("cookie-parser");
 var path = require('path');
 let nunjucks = require('nunjucks');
@@ -35,7 +36,7 @@ app.get('/verify/:token',auth)
 app.get('/logout',auth)
 app.get('/postform',formRoute)
 app.post('/postform',formRoute)
-
+app.get('/emailslog',emailRoute)
 
 app.listen({port: 5000}, async () => {
     console.log('Server up on http://localhost:5000')

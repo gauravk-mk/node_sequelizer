@@ -5,8 +5,6 @@ const token = require('../controllers/token')
 const { User } = require('../models')
 const jwt = require('jsonwebtoken');
 
-router.use(express.urlencoded())
-
 
 
 

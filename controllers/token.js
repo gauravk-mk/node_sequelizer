@@ -10,11 +10,6 @@ const sendEmails = require('../controllers/sendEmails');
 const { Console } = require('console');
 const token = require('../controllers/token');
 
-
-router.use(express.urlencoded())
-
-
-
 const SECRET = process.env.JWT_TOKEN
 const demo = process.env.demo
 
