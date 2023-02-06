@@ -10,9 +10,7 @@ var val = Math.floor(1000 + Math.random() * 9000);  //yet to implement OTP logic
 
 let JWT_SECRET = process.env.JWT_TOKEN
 
-
-
-const sendEmails = async(user_name,user_email) => {
+const sendEmails = async(curr_user) => {
     
     const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -22,14 +20,17 @@ const sendEmails = async(user_name,user_email) => {
         }
     });
     console.log("*****")
-    console.log(user_email)
-    console.log(user_name)
+    console.log(curr_user.email)
+    console.log(curr_user.name)
+    console.log(curr_user.companyName)
 
+    user_email=curr_user.email
+    user_name=curr_user.name
     const token = jwt.sign(
         {user_email},JWT_SECRET,{ expiresIn: '1d'},
     );    
 
-    var template = nunjucks.render(template_path, { name:user_name, otp:val, token:token });  
+    var template = nunjucks.render(template_path, { user:curr_user, otp:val, token:token });  
 
     console.log("****************")
     console.log(user_email)

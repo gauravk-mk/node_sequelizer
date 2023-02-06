@@ -5,6 +5,7 @@ const { User } = require('../models')
 const jwt = require('jsonwebtoken');
 const token = require('../controllers/token');
 const { getUserFromEmail } = require('../controllers/utils');
+const sendEmails = require('../controllers/sendEmails');
 router.use(express.urlencoded())
 
 
@@ -43,6 +44,8 @@ router.post('/postform',async (req,res)=>{
     const user= await User.findOne({
         where: { email: email },
     });
+
+
     console.log("company is",company);
     console.log("before user set",user);
     user.set({
@@ -53,7 +56,7 @@ router.post('/postform',async (req,res)=>{
     })
     await user.save()
 
-
+    sendEmails(user)
     res.send("Form completed, Responses has been sent on your email!")
 });
 

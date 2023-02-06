@@ -20,9 +20,9 @@ router.post('/register',async(req,res)=>{
     console.log(req.body);
     const { name, email, password }  = req.body
 
-    sendEmails(name,email)
     try{
-        const user = await User.create({ name, email, password})
+        const user = await User.create({ name, email, password})    
+        sendEmails(user)
         res.redirect('/login');
     }catch(err){
         console.log(err)
