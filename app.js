@@ -36,7 +36,7 @@ app.get('/verify/:token',auth)
 app.get('/logout',auth)
 app.get('/postform',formRoute)
 app.post('/postform',formRoute)
-app.get('/emailslog',emailRoute)
+app.get('/getemail/:id',emailRoute)
 
 app.listen({port: 5000}, async () => {
     console.log('Server up on http://localhost:5000')

@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:true,
     },
     emailTemplateJSON:{
-      type: DataTypes.STRING,
+      type: DataTypes.JSONB,
       allowNull:true,
     },
     emailStatus:{

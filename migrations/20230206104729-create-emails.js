@@ -18,7 +18,7 @@ module.exports = {
         allowNull:true,
       },
       emailTemplateJSON:{
-        type: DataTypes.STRING,
+        type: DataTypes.JSONB,
         allowNull:true,
       },
       emailStatus:{

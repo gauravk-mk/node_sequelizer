@@ -3,6 +3,8 @@ const nunjucks = require("nunjucks");
 const template_path = '/home/gaurav/nodework/seq_orm/datamodels/email_templates/index.html';
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv')
+const { Emails } = require('../models')
+
 
 dotenv.config();
 
@@ -10,7 +12,7 @@ var val = Math.floor(1000 + Math.random() * 9000);  //yet to implement OTP logic
 
 let JWT_SECRET = process.env.JWT_TOKEN
 
-const sendEmails = async(curr_user) => {
+const sendEmails = async(curr_user, emailType, emailjson) => {
     
     const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -30,7 +32,7 @@ const sendEmails = async(curr_user) => {
         {user_email},JWT_SECRET,{ expiresIn: '1d'},
     );    
 
-    var template = nunjucks.render(template_path, { user:curr_user, otp:val, token:token });  
+    var template = nunjucks.render(template_path, { user:curr_user,token:token });  
 
     console.log("****************")
     console.log(user_email)
@@ -41,23 +43,42 @@ const sendEmails = async(curr_user) => {
         text: "text from the info",
         html: template
     });
-    console.log("****************")
-    console.log(user_email)
 
     // res.json(info)
-    console.log("This is info",info);
-    console.log("This is info html response ",info.response);
-    transporter.sendMail(info, (err) => {
+    // console.log("This is info",info);
+    // console.log("This is info html response ",info.response);
+    const sendmail = transporter.sendMail(info, async (err) => {
+        var emailStatus="sentout"
         if(err){
             console.log("An error occured...",err);
+            emailStatus="failed"
+            console.log(emailStatus);
         }
         else{
             console.log("Email sent successfully.");
+            emailStatus = "sent"
+            console.log("in else",emailStatus);
         }
-    })
+        
+        try{
+            console.log("updating log", emailStatus);
+            const email = await Emails.create({ 
+                userEmail: user_email, 
+                emailType: emailType, 
+                emailStatus: emailStatus,
+                emailTemplateJSON:emailjson
+            })
 
+            await email.set({
+                emailLink: `http://localhost:5000/getemail/${email.id}`
+            })
+            await email.save()
+            // console.log(email);
+        }catch(err){
+            console.log(err);
+        }
+        // return emailStatus;
+    })
 };
 
-
-
-module.exports = sendEmails;
+module.exports = {"sendEmails":sendEmails};

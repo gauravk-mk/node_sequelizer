@@ -4,43 +4,32 @@ let path = require('path')
 const { User, Emails } = require('../models')
 const jwt = require('jsonwebtoken');
 const token = require('../controllers/token');
-const { getUserFromEmail } = require('../controllers/utils');
+const template_path = '/home/gaurav/nodework/seq_orm/datamodels/email_templates/index.html';
 router.use(express.urlencoded())
 
-
-// router.get('/emailslog/',async(req,res)=>{
-    
-// })
-
-
-router.get('/emailslog',async(req,res)=>{
-
-    const curr_token = req.cookies.access_token;
-    console.log(curr_token);
-    var decoded=jwt.decode(curr_token);
-    console.log(decoded);
-    curr_email= decoded.user_email
-            
-    const user= await User.findOne({
-        where: { email: curr_email },
-    });
-
-    console.log(user.id);
-    const UserId = user.id
-    const emailType = "welcome"
-    const emailStatus ="Sent"
-
+router.get('/getemail/:id',async(req,res)=>{
 
     try{
-        const email = await Emails.create({ userEmail: curr_email})
-        // console.log(email);
-        res.send(email)
+        
+        const id = req.params.id;
+        const emailLog = await Emails.findOne({
+            where:{ id: id},
+        });
+        currEmail = emailLog.userEmail
+        console.log(currEmail);
+        const curr_user = await User.findOne({
+            where:{ email:currEmail},
+        })
+
+        console.log(curr_user.email)
+        // var template = nunjucks.render(template_path, { user:curr_user});  
+
+        res.render(template_path,{user: curr_user})
 
     }catch(err){
-        console.log(err)
-        res.status(500).json(err)
+        res.send(err)
     }
-
+    
 })
 
 

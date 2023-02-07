@@ -2,7 +2,7 @@ const express = require('express')
 const { sequelize, User } = require('../models')
 const router = express.Router()
 let path = require('path');
-const sendEmails = require('../controllers/sendEmails');
+const {sendEmails} = require('../controllers/sendEmails');
 const { JsonWebTokenError } = require('jsonwebtoken');
 const jwt = require('jsonwebtoken');
 const { Console } = require('console');
@@ -22,7 +22,8 @@ router.post('/register',async(req,res)=>{
 
     try{
         const user = await User.create({ name, email, password})    
-        sendEmails(user)
+        const emailType = "welcome"
+        sendEmails(user,emailType)
         res.redirect('/login');
     }catch(err){
         console.log(err)
