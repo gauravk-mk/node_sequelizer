@@ -32,7 +32,7 @@ const sendEmails = async(curr_user, emailType, emailjson) => {
         {user_email},JWT_SECRET,{ expiresIn: '1d'},
     );    
 
-    var template = nunjucks.render(template_path, { user:curr_user,token:token });  
+    var template = nunjucks.render(template_path, { user:curr_user,token:token, type: emailType });  
 
     console.log("****************")
     console.log(user_email)
@@ -48,7 +48,24 @@ const sendEmails = async(curr_user, emailType, emailjson) => {
     // console.log("This is info",info);
     // console.log("This is info html response ",info.response);
     const sendmail = transporter.sendMail(info, async (err) => {
-        var emailStatus="sentout"
+        var emailStatus="pending"
+        try{
+                console.log("updating log", emailStatus);
+                const email = await Emails.create({ 
+                    userEmail: user_email, 
+                    emailType: emailType, 
+                    emailStatus: emailStatus,
+                    emailTemplateJSON:emailjson
+                })
+    
+                await email.set({
+                    emailLink: `http://localhost:5000/getemail/${email.id}`
+                })
+                await email.save()
+                // console.log(email);
+        }catch(err){
+                console.log(err);
+        }
         if(err){
             console.log("An error occured...",err);
             emailStatus="failed"
@@ -59,24 +76,9 @@ const sendEmails = async(curr_user, emailType, emailjson) => {
             emailStatus = "sent"
             console.log("in else",emailStatus);
         }
-        
-        try{
-            console.log("updating log", emailStatus);
-            const email = await Emails.create({ 
-                userEmail: user_email, 
-                emailType: emailType, 
-                emailStatus: emailStatus,
-                emailTemplateJSON:emailjson
-            })
 
-            await email.set({
-                emailLink: `http://localhost:5000/getemail/${email.id}`
-            })
-            await email.save()
-            // console.log(email);
-        }catch(err){
-            console.log(err);
-        }
+        //update email status
+        
         // return emailStatus;
     })
 };

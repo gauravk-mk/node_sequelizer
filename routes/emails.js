@@ -24,7 +24,7 @@ router.get('/getemail/:id',async(req,res)=>{
         console.log(curr_user.email)
         // var template = nunjucks.render(template_path, { user:curr_user});  
 
-        res.render(template_path,{user: curr_user})
+        res.render(template_path,{user: curr_user, type: emailLog.emailType })
 
     }catch(err){
         res.send(err)

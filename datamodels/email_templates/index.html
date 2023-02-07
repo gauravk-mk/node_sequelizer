@@ -7,17 +7,16 @@
     <title>Email Template</title>
 </head>
 <body>
-
-    {% if user.companyName %}
+    {% if type == "response" %}
         {% include 'email_templates/responses.html' %}
     {% else %}
-    
-    <h2>Hello, {{ user.name }}</h2>
-    <p>Hi! There, You have recently visited 
-        our website and entered your email.
-        Please follow the given link to verify your email
-    </p>
-    <a href="http://localhost:5000/verify/{{ token }} ">Click here </a>
+
+        <h2>Hello, {{ user.name }}</h2>
+        <p>Hi! There, You have recently visited  {{ type }}
+            our website and entered your email.
+            Please follow the given link to verify your email
+        </p>
+        <a href="http://localhost:5000/verify/{{ token }} ">Click here </a>
 
     {% endif %}   
 </body>
