@@ -1,0 +1,40 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container pt-3">
+
+    <br>
+    <h1 style=" font-family: IBM Plex Sans;">Welcome to Data Wallet!</h1>
+    <p>An amazing App that takes your data and does nothing at All.</p>
+
+    {% if home.user %}
+
+        <h3 style=" font-family: IBM Plex Sans;" >Hello {{ home.user.name}}</h3>
+        {% if home.user.isValidate %}
+            <p>Email is verified</p>
+        {% endif %}
+
+        {% if home.user.companyName %}
+            <p>Thank you for filling the form !</p>
+        {% else %}
+            <p>To proceed further you need to fill the form </p>
+            <a class="btn btn-primary" href="/postform/">Form</a>
+        {% endif %}    
+        
+        {% if not home.user.isValidate %}
+            <p>Email is Not verified Check your email</p>
+        {% endif %}
+
+
+    {% else %}
+
+        {% include 'landing.html' %}
+
+        
+    {% endif %}
+
+
+
+</div>
+<br>
+{% endblock %}

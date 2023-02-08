@@ -4,7 +4,7 @@ let path = require('path')
 const { User, Emails } = require('../models')
 const jwt = require('jsonwebtoken');
 const token = require('../controllers/token');
-const template_path = '/home/gaurav/nodework/seq_orm/datamodels/email_templates/index.html';
+const template_path = '/home/gaurav/nodework/seq_orm/template/email_templates/index.html';
 router.use(express.urlencoded())
 
 router.get('/getemail/:id',async(req,res)=>{

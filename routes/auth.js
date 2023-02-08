@@ -13,7 +13,7 @@ router.use(express.urlencoded())
 
 router.get('/register',async(req,res)=>{
 
-    res.render('views/register.html');
+    res.render('register.html');
 })
 
 router.post('/register',async(req,res)=>{
@@ -33,7 +33,7 @@ router.post('/register',async(req,res)=>{
 })
 
 router.get('/login',async(req,res)=>{
-    res.render('views/login.html');
+    res.render('login.html');
 })
 
 router.post('/login',async(req,res)=>{
@@ -82,10 +82,12 @@ router.get("/logout", authorization, (req, res) => {
     
     console.log("in logout");
 
-    return res
+    res
       .clearCookie("access_token")
       .status(200)
-      .json({ message: "Successfully logged out" });
+      .redirect('/');
+      
+    //   .json({ message: "Successfully logged out" });
   });
 
 

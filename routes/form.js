@@ -3,20 +3,18 @@ const router = express.Router()
 let path = require('path')
 const { User } = require('../models')
 const jwt = require('jsonwebtoken');
-const token = require('../controllers/token');
-const { getUserFromEmail } = require('../controllers/utils');
 const {sendEmails} = require('../controllers/sendEmails');
 router.use(express.urlencoded())
 
 
 
-router.get('/postform',async (req,res)=>{
+router.get('/postform',async (req,res)=>{   
 
     const curr_token = req.cookies.access_token;
     console.log("inside postform ", curr_token);
 
     if (!curr_token) {
-        return res.render('views/homepage.html',{home:{
+        return res.render('homepage.html',{home:{
             heading:"Hello! from home routes",
         }})
     }
@@ -28,7 +26,7 @@ router.get('/postform',async (req,res)=>{
         where: { email: curr_email },
     });
     console.log("user name is ", user.name);
-    res.render('views/form.html',{
+    res.render('form.html',{
         form:{
             user
         }

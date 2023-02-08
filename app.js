@@ -20,7 +20,7 @@ app.use(express.urlencoded())
 
 app.set("view engine", "html") //for rendering html files
 
-nunjucks.configure(['datamodels/'], {   // setting a default views folder for templates 
+nunjucks.configure(['template/'], {   // setting a default views folder for templates 
     autoescape: false,
     express: app
 })

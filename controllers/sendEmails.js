@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 const nunjucks = require("nunjucks");
-const template_path = '/home/gaurav/nodework/seq_orm/datamodels/email_templates/index.html';
+const template_path = '/home/gaurav/nodework/seq_orm/template/email_templates/index.html';
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv')
 const { Emails } = require('../models')
@@ -62,6 +62,7 @@ const sendEmails = async(curr_user, emailType, emailjson) => {
                     emailLink: `http://localhost:5000/getemail/${email.id}`
                 })
                 await email.save()
+                var emailId = await email.id
                 // console.log(email);
         }catch(err){
                 console.log(err);
@@ -75,6 +76,15 @@ const sendEmails = async(curr_user, emailType, emailjson) => {
             console.log("Email sent successfully.");
             emailStatus = "sent"
             console.log("in else",emailStatus);
+            console.log("email id is", emailId);
+            const email= await Emails.findOne({
+                where: { id: emailId}
+            })
+            email.set({
+                emailStatus: emailStatus,
+            })
+            await email.save()
+
         }
 
         //update email status

@@ -14,7 +14,7 @@ router.get('/',async (req,res)=>{
     console.log(curr_token);
 
     if (!curr_token) {
-        return res.render('views/homepage.html',{home:{
+        return res.render('homepage.html',{home:{
             heading:"Hello! from home routes",
         }})
     }
@@ -27,7 +27,7 @@ router.get('/',async (req,res)=>{
     });
 
       
-    res.render('views/homepage.html',{home:{
+    res.render('homepage.html',{home:{
         heading:"Hello! from home routes",
         user
     }})
